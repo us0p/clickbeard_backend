@@ -1,0 +1,23 @@
+services:
+    db:
+        image: mysql:latest
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql5:/var/lib/mysql
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: true
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: admin
+            MYSQL_DATABASE: clients
+
+    back:
+        depends_on:
+            - db
+        build:
+            context: .
+        ports:
+            - "4000:4000"
+
+volumes:
+    mysql5:
