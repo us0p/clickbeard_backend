@@ -10,10 +10,15 @@ services:
             MYSQL_USER: admin
             MYSQL_PASSWORD: admin
             MYSQL_DATABASE: clients
+        healthcheck:
+          test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+          timeout: 20s
+          retries: 10
 
     back:
         depends_on:
-            - db
+          db:
+            condition: service_healthy
         build:
             context: .
         ports:
